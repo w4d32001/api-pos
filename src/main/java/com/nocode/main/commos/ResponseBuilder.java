@@ -1,0 +1,22 @@
+package com.nocode.main.commos;
+
+import org.springframework.http.ResponseEntity;
+
+public class ResponseBuilder {
+    public static <T> ResponseEntity<ApiResponse<T>> build(int status, String message, T data) {
+        ApiResponse<T> response = new ApiResponse<>(status, message, data);
+        return ResponseEntity.status(status).body(response);
+    }
+
+    public static <T> ResponseEntity<ApiResponse<T>> ok(String message, T data) {
+        return build(200, message, data);
+    }
+
+    public static <T> ResponseEntity<ApiResponse<T>> created(String message, T data) {
+        return build(201, message, data);
+    }
+
+    public static <T> ResponseEntity<ApiResponse<T>> deleted(String message) {
+        return build(200, message, null);
+    }
+}
