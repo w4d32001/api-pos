@@ -1,5 +1,6 @@
 package com.nocode.main.services.customer;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,45 +25,46 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("api/customers")
 public class CustomerController {
-      
+
+      @Autowired
       private CustomerBusiness _customer;
 
       @GetMapping
       public ResponseEntity<ApiResponse<Page<CustomerDto>>> findAllCustomers(
-            @RequestParam(defaultValue = "") String search,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size
-      ){
+                  @RequestParam(defaultValue = "") String search,
+                  @RequestParam(defaultValue = "1") int page,
+                  @RequestParam(defaultValue = "10") int size) {
             Page<CustomerDto> customers = _customer.findAllCustomers(search, page, size);
             return ResponseBuilder.ok("Lista de clientes", customers);
       }
 
       @PostMapping
-      public ResponseEntity<ApiResponse<CustomerDto>> createCustomer(@Valid @RequestBody StoreRequest request){
+      public ResponseEntity<ApiResponse<CustomerDto>> createCustomer(@Valid @RequestBody StoreRequest request) {
             CustomerDto dto = CustomerDto.builder()
-                  .name(request.getName())
-                  .documentType(request.getDocumentType())
-                  .documentNumber(request.getDocumentNumber())
-                  .phone(request.getPhone())
-                  .build();
+                        .name(request.getName())
+                        .documentType(request.getDocumentType())
+                        .documentNumber(request.getDocumentNumber())
+                        .phone(request.getPhone())
+                        .build();
             return ResponseBuilder.created("Cliente creado exitosamente", _customer.createCustomer(dto));
       }
 
       @PutMapping("/{id}")
-      public ResponseEntity<ApiResponse<CustomerDto>> updateCustomer(@PathVariable String id, @Valid @RequestBody UpdateRequest request){
+      public ResponseEntity<ApiResponse<CustomerDto>> updateCustomer(@PathVariable String id,
+                  @Valid @RequestBody UpdateRequest request) {
 
             CustomerDto dto = CustomerDto.builder()
-                  .name(request.getName())
-                  .documentType(request.getDocumentType())
-                  .documentNumber(request.getDocumentNumber())
-                  .phone(request.getPhone())
-                  .build();
+                        .name(request.getName())
+                        .documentType(request.getDocumentType())
+                        .documentNumber(request.getDocumentNumber())
+                        .phone(request.getPhone())
+                        .build();
 
             return ResponseBuilder.ok("Cliente actualizado exitosamente", _customer.updateCustomer(id, dto));
       }
 
       @DeleteMapping("/{id}")
-      public ResponseEntity<ApiResponse<Void>> deleteCustomer(@PathVariable String id){
+      public ResponseEntity<ApiResponse<Void>> deleteCustomer(@PathVariable String id) {
             _customer.deleteCustomer(id);
             return ResponseBuilder.deleted("Cliente eliminado exitosamente");
       }

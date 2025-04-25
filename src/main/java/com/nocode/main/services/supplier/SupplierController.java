@@ -1,5 +1,6 @@
 package com.nocode.main.services.supplier;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +26,7 @@ import jakarta.validation.Valid;
 @RequestMapping("api/suppliers")
 public class SupplierController {
       
+      @Autowired
     private SupplierBusiness _supplier;
 
     @GetMapping
