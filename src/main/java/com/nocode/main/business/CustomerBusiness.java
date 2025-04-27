@@ -44,7 +44,7 @@ public class CustomerBusiness {
       }
 
       @Transactional
-      public CustomerDto createCustomer(CustomerDto dto) {
+      public void createCustomer(CustomerDto dto) {
             
             _repo.findByPhone(dto.getPhone())
                   .ifPresent( n -> {
@@ -66,19 +66,11 @@ public class CustomerBusiness {
                   .updatedAt(LocalDateTime.now())
                   .build();
 
-            return CustomerDto.builder()
-                  .id(entity.getId())
-                  .name(entity.getName())
-                  .documentType(entity.getDocumentType())
-                  .documentNumber(entity.getDocumentNumber())
-                  .phone(entity.getPhone())
-                  .createdAt(entity.getCreatedAt())
-                  .updatedAt(entity.getUpdatedAt())
-                  .build();
+           _repo.save(entity);
       }
 
       @Transactional
-      public CustomerDto updateCustomer(String id, CustomerDto dto) {
+      public void updateCustomer(String id, CustomerDto dto) {
             
             CustomerEntity entity = _repo.findById(id)
                   .orElseThrow(() -> new ConflictException("El cliente con el id: '" + id + "' no existe."));
@@ -101,15 +93,7 @@ public class CustomerBusiness {
             entity.setPhone(dto.getPhone());
             entity.setUpdatedAt(LocalDateTime.now());
 
-            return CustomerDto.builder()
-                  .id(entity.getId())
-                  .name(entity.getName())
-                  .documentType(entity.getDocumentType())
-                  .documentNumber(entity.getDocumentNumber())
-                  .phone(entity.getPhone())
-                  .createdAt(entity.getCreatedAt())
-                  .updatedAt(entity.getUpdatedAt())
-                  .build();
+           _repo.save(entity);
       }
 
       @Transactional

@@ -12,8 +12,16 @@ public class ResponseBuilder {
         return build(200, message, data);
     }
 
+    public static ResponseEntity<ApiResponse<Void>> ok(String message) {
+        return build(200, message, null);
+    }
+
     public static <T> ResponseEntity<ApiResponse<T>> created(String message, T data) {
         return build(201, message, data);
+    }
+
+    public static ResponseEntity<ApiResponse<Void>> created(String message) {
+        return build(201, message, null);
     }
 
     public static <T> ResponseEntity<ApiResponse<T>> deleted(String message) {

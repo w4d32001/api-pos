@@ -32,7 +32,7 @@ public class SupplierController {
     @GetMapping
     public ResponseEntity<ApiResponse<Page<SupplierDto>>> findAllSuppliers(
           @RequestParam(defaultValue = "") String search,
-          @RequestParam(defaultValue = "1") int page,
+          @RequestParam(defaultValue = "0") int page,
           @RequestParam(defaultValue = "10") int size
     ){
           Page<SupplierDto> suppliers = _supplier.findAllSuppliers(search, page, size);
@@ -40,7 +40,7 @@ public class SupplierController {
     }
 
       @PostMapping
-      public ResponseEntity<ApiResponse<SupplierDto>> createSupplier(@Valid @RequestBody StoreRequest request){
+      public ResponseEntity<ApiResponse<Void>> createSupplier(@Valid @RequestBody StoreRequest request){
             SupplierDto dto = SupplierDto.builder()
                   .name(request.getName())
                   .documentType(request.getDocumentType())
@@ -48,11 +48,14 @@ public class SupplierController {
                   .phone(request.getPhone())
                   .email(request.getEmail())
                   .build();
-            return ResponseBuilder.created("Proveedor creado exitosamente", _supplier.createSupplier(dto));
+
+          _supplier.createSupplier(dto);
+
+            return ResponseBuilder.created("Proveedor creado exitosamente");
       }
 
       @PutMapping("/{id}")
-      public ResponseEntity<ApiResponse<SupplierDto>> updateSupplier(@PathVariable String id, @Valid @RequestBody UpdateRequest request){
+      public ResponseEntity<ApiResponse<Void>> updateSupplier(@PathVariable String id, @Valid @RequestBody UpdateRequest request){
             SupplierDto dto = SupplierDto.builder()
                   .name(request.getName())
                   .documentType(request.getDocumentType())
@@ -60,7 +63,10 @@ public class SupplierController {
                   .phone(request.getPhone())
                   .email(request.getEmail())
                   .build();
-            return ResponseBuilder.ok("Proveedor actualizado exitosamente", _supplier.updateSupplier(id, dto));
+
+          _supplier.updateSupplier(id, dto);
+
+            return ResponseBuilder.ok("Proveedor actualizado exitosamente");
       }
 
       @DeleteMapping("/{id}")

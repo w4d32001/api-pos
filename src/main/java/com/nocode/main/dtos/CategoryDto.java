@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -17,4 +20,6 @@ public class CategoryDto extends GenericDto {
     private String name;
 
     private String description;
+
+    private List<ProductDto> products = new ArrayList<>();
 }

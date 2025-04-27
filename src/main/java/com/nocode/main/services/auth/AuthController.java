@@ -25,7 +25,7 @@ public class AuthController {
       private AuthBusiness _auth;
 
       @PostMapping("register")
-      public ResponseEntity<ApiResponse<UserDto>> register(@Valid @RequestBody Register register){
+      public ResponseEntity<ApiResponse<Void>> register(@Valid @RequestBody Register register){
             UserDto dto = UserDto.builder()
                   /* .name(register.getName())
                   .email(register.getEmail())
@@ -37,7 +37,9 @@ public class AuthController {
                   .password(register.getPassword())
                   .userName(register.getUserName())
                   .build();
-            return ResponseBuilder.created("Usuario registrado exitosamente", _auth.registerUser(dto));
+                  _auth.registerUser(dto);
+
+            return ResponseBuilder.created("Usuario registrado exitosamente");
       }
 
       @PostMapping("login")

@@ -25,7 +25,7 @@ public class AuthBusiness {
       private IAuthRepository _repo;
 
       @Transactional
-      public UserDto registerUser(UserDto userDto) {
+      public void registerUser(UserDto userDto) {
 
             /*
              * _repo.findByUserName(userDto.getUserName())
@@ -67,21 +67,6 @@ public class AuthBusiness {
                         .build();
             _repo.save(entity);
 
-            return UserDto.builder()
-                        .id(entity.getId())
-                        .userName(entity.getUserName())
-                        .email(entity.getEmail())
-                        .phone(entity.getPhone())
-                        .documentNumber(entity.getDocumentNumber())
-                        .documentType(entity.getDocumentType())
-                        .address(entity.getAddress())
-                        .name(entity.getName())
-                        .password(entity.getPassword())
-                        .role(entity.getRole())
-                        .status(entity.isStatus())
-                        .createdAt(entity.getCreatedAt())
-                        .updatedAt(entity.getUpdatedAt())
-                        .build();
 
       }
 

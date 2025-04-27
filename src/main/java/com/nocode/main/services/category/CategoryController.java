@@ -30,19 +30,21 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<CategoryDto>> createCategory(@Valid @RequestBody StoreRequest request){
+    public ResponseEntity<ApiResponse<Void>> createCategory(@Valid @RequestBody StoreRequest request){
 
         CategoryDto dto = CategoryDto.builder()
                 .name(request.getName())
                 .description(request.getDescription())
                 .build();
 
-        return ResponseBuilder.created("Categoría creada exitosamente", _category.createCategory(dto));
+        _category.createCategory(dto);
+
+        return ResponseBuilder.created("Categoría creada exitosamente");
 
     }
 
     @PutMapping("/{id}")
-    public  ResponseEntity<ApiResponse<CategoryDto>> updateCategory(@PathVariable String id, @Valid @RequestBody UpdateRequest request){
+    public  ResponseEntity<ApiResponse<Void>> updateCategory(@PathVariable String id, @Valid @RequestBody UpdateRequest request){
 
       System.out.println("asdasdasdasdasdasdasdasdasdasd"+request);
         CategoryDto dto = CategoryDto.builder()
@@ -50,7 +52,9 @@ public class CategoryController {
                 .description(request.getDescription())
                 .build();
 
-        return  ResponseBuilder.ok("Categoría actualizada exitosamente", _category.updateCategory(id, dto));
+        _category.updateCategory(id, dto);
+
+        return  ResponseBuilder.ok("Categoría actualizada exitosamente");
     }
 
     @DeleteMapping("/{id}")

@@ -42,7 +42,7 @@ public class CategoryBusiness {
     }
 
     @Transactional
-    public CategoryDto createCategory(CategoryDto dto){
+    public void createCategory(CategoryDto dto){
 
         _repo.findByName(dto.getName())
                 .ifPresent( n -> {
@@ -59,20 +59,12 @@ public class CategoryBusiness {
                 .updatedAt(LocalDateTime.now())
                 .build();
 
-        CategoryEntity saved = _repo.save(entity);
-
-        return  CategoryDto.builder()
-                .id(saved.getId())
-                .name(saved.getName())
-                .description(saved.getDescription())
-                .createdAt(saved.getCreatedAt())
-                .updatedAt(saved.getUpdatedAt())
-                .build();
+           _repo.save(entity);
 
     }
 
     @Transactional
-    public CategoryDto updateCategory(String id, CategoryDto dto){
+    public void updateCategory(String id, CategoryDto dto){
 
         CategoryEntity existing = _repo.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Categoria", "id", id)
@@ -89,14 +81,6 @@ public class CategoryBusiness {
         existing.setUpdatedAt(LocalDateTime.now());
 
         _repo.save(existing);
-
-        return CategoryDto.builder()
-                .id(existing.getId())
-                .name(existing.getName())
-                .description(existing.getDescription())
-                .createdAt(existing.getCreatedAt())
-                .updatedAt(existing.getUpdatedAt())
-                .build();
 
     }
 

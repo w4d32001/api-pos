@@ -1,5 +1,6 @@
 package com.nocode.main.handler;
 
+import com.nocode.main.exception.CloudinaryUploadException;
 import com.nocode.main.exception.ConflictException;
 import com.nocode.main.exception.EncryptionException;
 import com.nocode.main.exception.ResourceNotFoundException;
@@ -67,6 +68,15 @@ public class GlobalExceptionHandler {
       @ExceptionHandler(EncryptionException.class)
       public ResponseEntity<ApiError> handleEncryptionException(EncryptionException ex) {
             ApiError apiError = new ApiError("Error de encriptación", List.of(ex.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiError);
+      }
+
+      @ExceptionHandler(CloudinaryUploadException.class)
+      public ResponseEntity<ApiError> handleCloudinaryUploadException(CloudinaryUploadException ex) {
+            ApiError apiError = new ApiError(
+                    "Error al subir imagen",
+                    List.of(ex.getMessage())
+            );
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiError);
       }
 

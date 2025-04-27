@@ -45,7 +45,7 @@ public class CompanyBusiness {
       }
 
       @Transactional 
-      public CompanyDto createCompany(CompanyDto dto){
+      public void createCompany(CompanyDto dto){
           
 
             CompanyEntity entity = CompanyEntity.builder()
@@ -58,21 +58,11 @@ public class CompanyBusiness {
                   .createdAt(LocalDateTime.now())
                   .updatedAt(LocalDateTime.now())
                   .build();
-
-            return CompanyDto.builder()
-                  .id(entity.getId())
-                  .logo(entity.getLogo())
-                  .name(entity.getName())
-                  .address(entity.getAddress())
-                  .phone(entity.getPhone())
-                  .ruc(entity.getRuc())
-                  .createdAt(entity.getCreatedAt())
-                  .updatedAt(entity.getUpdatedAt())
-                  .build();
+            _repo.save(entity);
       }
 
       @Transactional
-      public CompanyDto updateCompany(String id, CompanyDto dto){
+      public void updateCompany(String id, CompanyDto dto){
 
             CompanyEntity entity = _repo.findById(id)
                   .orElseThrow(() -> new RuntimeException("No se encontró la empresa con id: " + id));
@@ -84,16 +74,7 @@ public class CompanyBusiness {
             entity.setRuc(dto.getRuc());
             entity.setUpdatedAt(LocalDateTime.now());
 
-            return CompanyDto.builder()
-                  .id(entity.getId())
-                  .logo(entity.getLogo())
-                  .name(entity.getName())
-                  .address(entity.getAddress())
-                  .phone(entity.getPhone())
-                  .ruc(entity.getRuc())
-                  .createdAt(entity.getCreatedAt())
-                  .updatedAt(entity.getUpdatedAt())
-                  .build();
+            _repo.save(entity);
       }
 
       @Transactional

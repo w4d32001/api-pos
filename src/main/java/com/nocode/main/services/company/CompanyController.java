@@ -30,14 +30,14 @@ public class CompanyController {
       @GetMapping
       public ResponseEntity<ApiResponse<Page<CompanyDto>>> findAllCompanies(
                   @RequestParam(defaultValue = "") String search,
-                  @RequestParam(defaultValue = "1") int page,
+                  @RequestParam(defaultValue = "0") int page,
                   @RequestParam(defaultValue = "10") int size) {
             Page<CompanyDto> companies = _company.findAll(search, page, size);
             return ResponseBuilder.ok("Lista de empresas", companies);
       }
 
       @PostMapping(consumes = "multipart/form-data")
-      public ResponseEntity<ApiResponse<CompanyDto>> createCompany(@Valid @ModelAttribute StoreRequest request) {
+      public ResponseEntity<ApiResponse<Void>> createCompany(@Valid @ModelAttribute StoreRequest request) {
             CompanyDto dto = CompanyDto.builder()
                         .logo(request.getLogo())
                         .name(request.getName())
@@ -45,11 +45,14 @@ public class CompanyController {
                         .phone(request.getPhone())
                         .ruc(request.getRuc())
                         .build();
-            return ResponseBuilder.created("Empresa creada exitosamente", _company.createCompany(dto));
+
+            _company.createCompany(dto);
+
+            return ResponseBuilder.created("Empresa creada exitosamente");
       }
 
       @PostMapping(path = "/{id}", consumes = "multipart/form-data")
-      public ResponseEntity<ApiResponse<CompanyDto>> updateCompany(@RequestParam String id,
+      public ResponseEntity<ApiResponse<Void>> updateCompany(@RequestParam String id,
                   @Valid @ModelAttribute UpdateRequest request) {
             CompanyDto dto = CompanyDto.builder()
                         .logo(request.getLogo())
@@ -58,7 +61,10 @@ public class CompanyController {
                         .phone(request.getPhone())
                         .ruc(request.getRuc())
                         .build();
-            return ResponseBuilder.ok("Empresa actualizada exitosamente", _company.updateCompany(id, dto));
+
+            _company.updateCompany(id, dto);
+
+            return ResponseBuilder.ok("Empresa actualizada exitosamente");
       }
 
       @DeleteMapping("/{id}")

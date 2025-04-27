@@ -44,7 +44,7 @@ public class SupplierBusiness {
       }
 
       @Transactional
-      public SupplierDto createSupplier(SupplierDto dto) {
+      public void createSupplier(SupplierDto dto) {
 
             _repo.findByPhone(dto.getPhone())
                   .ifPresent(n -> {
@@ -71,21 +71,11 @@ public class SupplierBusiness {
                   .createdAt(LocalDateTime.now())
                   .updatedAt(LocalDateTime.now())
                   .build();
-
-            return SupplierDto.builder()
-                  .id(entity.getId())
-                  .name(entity.getName())
-                  .documentType(entity.getDocumentType())
-                  .documentNumber(entity.getDocumentNumber())
-                  .phone(entity.getPhone())
-                  .email(entity.getEmail())
-                  .createdAt(entity.getCreatedAt())
-                  .updatedAt(entity.getUpdatedAt())
-                  .build();
+            _repo.save(entity);
       }
 
       @Transactional
-      public SupplierDto updateSupplier(String id, SupplierDto dto) {
+      public void updateSupplier(String id, SupplierDto dto) {
 
             SupplierEntity entity = _repo.findById(id)
                   .orElseThrow(() -> new ConflictException("El proveedor con el id: '" + id + "' no existe."));
@@ -97,16 +87,7 @@ public class SupplierBusiness {
             entity.setEmail(dto.getEmail());
             entity.setUpdatedAt(LocalDateTime.now());
 
-            return SupplierDto.builder()
-                  .id(entity.getId())
-                  .name(entity.getName())
-                  .documentType(entity.getDocumentType())
-                  .documentNumber(entity.getDocumentNumber())
-                  .phone(entity.getPhone())
-                  .email(entity.getEmail())
-                  .createdAt(entity.getCreatedAt())
-                  .updatedAt(entity.getUpdatedAt())
-                  .build();
+            _repo.save(entity);
       }
 
       @Transactional

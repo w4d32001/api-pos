@@ -32,25 +32,28 @@ public class CustomerController {
       @GetMapping
       public ResponseEntity<ApiResponse<Page<CustomerDto>>> findAllCustomers(
                   @RequestParam(defaultValue = "") String search,
-                  @RequestParam(defaultValue = "1") int page,
+                  @RequestParam(defaultValue = "0") int page,
                   @RequestParam(defaultValue = "10") int size) {
             Page<CustomerDto> customers = _customer.findAllCustomers(search, page, size);
             return ResponseBuilder.ok("Lista de clientes", customers);
       }
 
       @PostMapping
-      public ResponseEntity<ApiResponse<CustomerDto>> createCustomer(@Valid @RequestBody StoreRequest request) {
+      public ResponseEntity<ApiResponse<Void>> createCustomer(@Valid @RequestBody StoreRequest request) {
             CustomerDto dto = CustomerDto.builder()
                         .name(request.getName())
                         .documentType(request.getDocumentType())
                         .documentNumber(request.getDocumentNumber())
                         .phone(request.getPhone())
                         .build();
-            return ResponseBuilder.created("Cliente creado exitosamente", _customer.createCustomer(dto));
+
+            _customer.createCustomer(dto);
+
+            return ResponseBuilder.created("Cliente creado exitosamente");
       }
 
       @PutMapping("/{id}")
-      public ResponseEntity<ApiResponse<CustomerDto>> updateCustomer(@PathVariable String id,
+      public ResponseEntity<ApiResponse<Void>> updateCustomer(@PathVariable String id,
                   @Valid @RequestBody UpdateRequest request) {
 
             CustomerDto dto = CustomerDto.builder()
@@ -60,7 +63,9 @@ public class CustomerController {
                         .phone(request.getPhone())
                         .build();
 
-            return ResponseBuilder.ok("Cliente actualizado exitosamente", _customer.updateCustomer(id, dto));
+            _customer.updateCustomer(id, dto);
+
+            return ResponseBuilder.ok("Cliente actualizado exitosamente");
       }
 
       @DeleteMapping("/{id}")
