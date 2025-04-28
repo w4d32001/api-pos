@@ -39,7 +39,7 @@ public class CompanyController {
       @PostMapping(consumes = "multipart/form-data")
       public ResponseEntity<ApiResponse<Void>> createCompany(@Valid @ModelAttribute StoreRequest request) {
             CompanyDto dto = CompanyDto.builder()
-                        .logo(request.getLogo())
+                        .logoUrl(request.getLogo())
                         .name(request.getName())
                         .address(request.getAddress())
                         .phone(request.getPhone())

@@ -45,4 +45,7 @@ public class ProductEntity extends GenericEntity{
     @Column
     private String barCode;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PurchaseDetailEntity> purchaseDetail = new ArrayList<>();
+
 }

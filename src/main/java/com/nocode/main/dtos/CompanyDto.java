@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.springframework.web.multipart.MultipartFile;
 
 @Setter
 @Getter
@@ -15,6 +16,8 @@ public class CompanyDto extends GenericDto {
     private String id;
 
     private String logo;
+
+    private MultipartFile logoUrl;
 
     private String name;
 

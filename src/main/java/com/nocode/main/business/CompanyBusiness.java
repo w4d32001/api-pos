@@ -21,6 +21,9 @@ public class CompanyBusiness {
       @Autowired
       private ICompanyRepository _repo;
 
+      @Autowired
+      private CloudinaryService _cloudinary;
+
       public Page<CompanyDto> findAll(String search, int page, int size) {
 
             Pageable pageable = PageRequest.of(page, size);
@@ -50,7 +53,7 @@ public class CompanyBusiness {
 
             CompanyEntity entity = CompanyEntity.builder()
                   .id(UUID.randomUUID().toString())
-                  .logo(dto.getLogo())
+                  .logo(_cloudinary.uploadImage(dto.getLogoUrl()))
                   .name(dto.getName())
                   .address(dto.getAddress())
                   .phone(dto.getPhone())

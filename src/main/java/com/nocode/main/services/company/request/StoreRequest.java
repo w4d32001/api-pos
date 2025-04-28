@@ -3,12 +3,13 @@ package com.nocode.main.services.company.request;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Setter
 @Getter
 public class StoreRequest {
       @NotBlank(message = "El campo nombre no puede ser nulo")
-      private String logo;
+      private MultipartFile logo;
 
       @NotBlank(message = "El campo nombre no puede ser nulo")
       private String name;
